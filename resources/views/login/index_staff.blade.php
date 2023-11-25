@@ -15,37 +15,38 @@
 <body>
     <h1>Login Staff</h1>
     @if(session()->has('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" aria-label="Close"></button>
         </div>
-        @endif
+    @endif
 
-        @if(session()->has('loginError'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    @if(session()->has('loginError'))
+        <div class="" role="alert">
             {{ session('loginError') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" aria-label="Close"></button>
         </div>
     @endif
     <form actio="/loginStaff" method="post">
-            @csrf
-            <div class="">
-                <label for="email">Email address</label></br>
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="name@example.com" value="{{ old('email') }}" autofocus required></br></br>
-                @error('email')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
+        @csrf
+        <div class="">
+            <label for="email">Email address</label></br>
+            <input type="email" name="email" class="@error('email') is-invalid @enderror" id="email" placeholder="name@example.com" value="{{ old('email') }}" autofocus required></br></br>
+            @error('email')
+            <div class="invalid-feedback">
+                {{ $message }}
             </div>
-            <div class="">
-                <label for="password">Password</label></br>
-                <input type="password" name="password" class="form-control" id="password" placeholder="Password" required></br></br>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-        </form>
-        <small class="d-block text-center mt-3">Not registered?
-            <a href="/register">Register Now!</a>
-        </small>
+            @enderror
+        </div>
+
+        <div class="">
+            <label for="password">Password</label></br>
+            <input type="password" name="password" class="" id="password" placeholder="Password" required></br></br>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+    <small >Not registered?
+        <a href="/register">Register Now!</a>
+    </small>
 </body>
 </html>

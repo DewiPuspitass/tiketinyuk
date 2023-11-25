@@ -17,7 +17,7 @@
     @csrf
         <div class="">
             <label for="nama">Nama</label></br>
-            <input type="text" name="nama" class="form-control rounded-top  @error('nama')is-invalid @enderror" id="nama" placeholder="Nama" required value="{{ old('nama') }}"></br></br>
+            <input type="text" name="nama" class="@error('nama')is-invalid @enderror" id="nama" placeholder="Nama" required value="{{ old('nama') }}"></br></br>
             @error('nama')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -26,7 +26,7 @@
         </div>
         <div class="">
             <label for="email">Email</label></br>
-            <input type="text" name="email" class="form-control rounded-top  @error('email')is-invalid @enderror" id="email" placeholder="email@gmail.com" required value="{{ old('email') }}"></br></br>
+            <input type="text" name="email" class="@error('email')is-invalid @enderror" id="email" placeholder="email@gmail.com" required value="{{ old('email') }}"></br></br>
             @error('email')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -35,7 +35,7 @@
         </div>
         <div class="">
             <label for="no_hp">No HP</label></br>
-            <input type="text" name="no_hp" class="form-control rounded-top  @error('no_hp')is-invalid @enderror" id="no_hp" placeholder="08xxxxxx" required value="{{ old('no_hp') }}"></br></br>
+            <input type="text" name="no_hp" class="@error('no_hp')is-invalid @enderror" id="no_hp" placeholder="08xxxxxx" required value="{{ old('no_hp') }}"></br></br>
             @error('no_hp')
             <div class="invalid-feedback">
                 {{ $message }}
@@ -44,14 +44,14 @@
         </div>
         <div class="">
             <label for="password">Password</label></br>
-            <input type="password" name="password" class="form-control rounded-bottom  @error('password')is-invalid @enderror" id="password" placeholder="Password" required></br></br>
+            <input type="password" name="password" class="@error('password')is-invalid @enderror" id="password" placeholder="Password" required></br></br>
             @error('password')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
         </div>
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Buat akun staff</button>
+        <button type="submit">Buat akun staff</button>
     </form>
 </body>
 </html>

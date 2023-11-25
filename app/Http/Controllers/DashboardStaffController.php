@@ -112,28 +112,12 @@ class DashboardStaffController extends Controller
     }
 
     public function authenticate(Request $request){
-    //     $email = $request->input('email');
-    //     $password = $request->input('password');
-        
-    //     // Ambil data pengguna berdasarkan email
-    //     $user = DB::table('staffAcc')->where('email', $email)->first();
-        
-    //     if ($user && password_verify($password, $user->password)) {
-    //         session(['user_id' => $user->id]);
-    //         return redirect('/dashboardStaff'); // Redirect ke halaman setelah login
-    //     } else {
-    //         // Autentikasi gagal
-    //         return redirect('/login')->with('error', 'Email atau password salah');
-    // }
-
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('staff')->attempt($credentials)) {
-            // Jika login berhasil
-            return redirect()->intended('/dashboardStaff'); // Ganti '/dashboard' dengan rute setelah login sukses
+            return redirect()->intended('/dashboardStaff'); 
         } else {
-            // Jika login gagal
-            return back()->withErrors(['email' => 'Invalid credentials']); // Tampilkan pesan error
+            return back()->withErrors(['email' => 'Invalid credentials']);
         }
     }
 
@@ -144,6 +128,6 @@ class DashboardStaffController extends Controller
 
         request()->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/loginStaff');
     }
 }
