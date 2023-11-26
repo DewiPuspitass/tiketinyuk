@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+@extends("layout.app")
+@section("main-container")
+<div class="container-fluid">
     @auth
-    <li>
-        <h2>Hallo, {{ auth()->user()->nama }}</h2>
-            <li>
-                <a href="/dashboard"> My Dashboard</a></br></br>
-            </li>
-            <table class="table table-striped table-sm" border=1>
+    <nav class="navbar">
+        <h2 class="nav navbar-brand">Hallo, {{ auth()->user()->nama }}</h2>
+    </nav>
+    <a href="/dashboard" class="h2 text-decoration-none mb-2 pb-2"> My Dashboard</a>
+    <table class="table table-striped table-sm mt-5">
         <thead>
             <tr>
                 <th scope="col">#</th>
@@ -30,32 +24,33 @@
                 <td>{{ $tiket->deskripsi }}</td>
                 <td>{{ $tiket->harga }}</td>
                 <td>
-                    <a href="/dashboard/tickets/{{ $tiket->id }}" class="badge bg-info"><button>Detail</button></a>
-                    <a href="/dashboard/tickets/{{ $tiket->id }}/edit" class="badge bg-warning"><button>Edit</button></a>
+                    <a href="/dashboard/tickets/{{ $tiket->id }}" class="btn btn-primary badge bg-info">Detail</a>
+                    <a href="/dashboard/tickets/{{ $tiket->id }}/edit" class="btn badge bg-warning">Edit</a>
                     <form action="/dashboard/tickets/{{ $tiket->id }}" method="post">
                         @method('delete')
                         @csrf
-                        <button onclick="return confirm('are you sure?')">Hapus</button>
+                        <button onclick="return confirm('are you sure?')" class="btn badge bg-danger">Hapus</button>
                     </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
-    </table></br></br>
-            <li>
-                <button><a href="/dashboard/tickets">Buat tiket baru</a></button></br></br>
-                <button><a href="/dashboard/staff">Buat staff baru</a></button></br></br>
-                <form action="/logout" method="post">
-                    @csrf
-                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</button>
-                </form>
-            </li>
-    </li>
+    </table>
+    </br></br>
+    <div class="container-fluid d-flex flex-direction-row w-100 justify-content-end align0-content-end">
+        <a href="/dashboard/tickets" class="btn btn-primary">Buat tiket baru</a>
+        <div class="p-2"></div>
+        <a href="/dashboard/staff" class="btn btn-secondary">Buat staff baru</a>
+        <div class="p-2"></div>
+        <form action="/logout" method="post">
+            @csrf
+            <button class ="btn btn-danger" type="submit" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</button>
+        </form>
+    </div>
     @else
     <li>
         <a href="/login">login</a>
     </li>
     @endauth
 </div>
-</body>
-</html>
+@endsection
