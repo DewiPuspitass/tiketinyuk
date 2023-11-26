@@ -19,37 +19,45 @@ use App\Http\Controllers\DashboardStaffController;
 |
 */
 
+// Login Option
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+//  For Manager
+Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-
+// For Staff
 Route::get('/loginStaff', [DashboardStaffController::class, 'login']);
 Route::post('/loginStaff', [DashboardStaffController::class, 'authenticate']);
-Route::post('/logoutStaff', [DashboardStaffController::class, 'logout']);
 
-
+// For Register
 Route::get('/register', [RegisterController::class, 'indexManager']);
 Route::post('/register', [RegisterController::class, 'store']);
 
-
+// After login manager
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
-Route::get('/dashboard/tickets', [DashboardController::class, 'create']);
-Route::post('/dashboard/tickets', [DashboardController::class, 'store']);
-Route::get('/dashboard/tickets/{id}', [DashboardController::class, 'show']);
-
-
-
-Route::get('/dashboard/staff', [DashboardController::class, 'createStaff']);
-Route::post('/dashboard/staff', [DashboardController::class, 'storeStaff']);
-
+// After login Staff
 Route::get('/dashboardStaff', [DashboardStaffController::class, 'index']);
 
+// All about the Tickets
+Route::get('/dashboard/tickets', [DashboardController::class, 'create']);
+Route::post('/dashboard/tickets', [DashboardController::class, 'store']);
+Route::get('/dashboard/tickets/detail/{id}', [DashboardController::class, 'show']);
+Route::get('/dashboard/tickets/edit/{id}', [DashboardController::class, 'edit']);
+Route::put('/dashboard/tickets/edit/{id}', [DashboardController::class, 'update']);
+Route::delete('/dashboard/tickets/{id}', [DashboardController::class, 'destroy']);
+
+// All about the Staff
+Route::get('/dashboard/staff', [DashboardController::class, 'createStaff']);
+Route::post('/dashboard/staff', [DashboardController::class, 'storeStaff']);
+Route::get('/dashboard/staff/edit/{id}', [DashboardController::class, 'editStaff']);
+Route::put('/dashboard/staff/edit/{id}', [DashboardController::class, 'updateStaff']);
+
+// For buying the tickets
 Route::get('/dashboard/pembeliantickets', [DashboardStaffController::class, 'pembelian']);
 Route::get('/dashboard/pembeliantickets/harga/{tiketId}', [DashboardStaffController::class, 'getHarga']);
 

@@ -19,7 +19,8 @@ class DashboardController extends Controller
     {
         return view('dashboard.index',[
             'title' => 'Dashboard',
-            'tickets' => Tickets::where('user_id', auth()->user()->id)->get()
+            'tickets' => Tickets::where('user_id', auth()->user()->id)->get(),
+            'staffs' => Staff::where('user_id', auth()->user()->id)->get()
             ]);
     }
 
@@ -82,9 +83,13 @@ class DashboardController extends Controller
      * @param  \App\Models\Tickets  $tickets
      * @return \Illuminate\Http\Response
      */
-    public function edit(Tickets $tickets)
+    public function edit($id)
     {
-        //
+        $tickets = Tickets::find($id);
+        return view('dashboard.tickets.edit', [ 
+            'title' => 'Edit tiket',
+            'tickets' => $tickets,
+        ]);
     }
 
     /**
@@ -94,9 +99,24 @@ class DashboardController extends Controller
      * @param  \App\Models\Tickets  $tickets
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tickets $tickets)
+    public function update(Request $request, $id )
     {
-        //
+        $validasi = $request->validate([
+            'nama_tiket' => 'required',
+            'deskripsi' => 'required',
+            'harga' => 'required|numeric',
+        ]);
+    
+        $ticket = Tickets::findOrFail($id);
+    
+        $ticket->nama_tiket = $validasi['nama_tiket'];
+        $ticket->deskripsi = $validasi['deskripsi'];
+        $ticket->harga = $validasi['harga'];
+        $ticket->user_id = auth()->user()->id; 
+    
+        $ticket->save();
+    
+        return redirect('/dashboard')->with('success', 'Ticket has been updated!');
     }
 
     /**
@@ -105,15 +125,17 @@ class DashboardController extends Controller
      * @param  \App\Models\Tickets  $tickets
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Tickets $tickets)
+    public function destroy($id)
     {
-        //
+        $ticket = Tickets::findOrFail($id);
+        $ticket->delete();
+        return redirect('/dashboard')->with('success', 'Post has been deleted!');
     }
 
 
     public function createStaff(){
         return view('dashboard.staff.create', [
-            'title' => 'Buat Tiket',
+            'title' => 'Register Staff',
         ]);
     }
 
@@ -136,5 +158,34 @@ class DashboardController extends Controller
 
         // $request->session()->flash('success', 'Registeration successfull! Please login');
         return redirect('/dashboard')->with('success', 'Data Staff berhasil di tambahkan');
+    }
+
+    public function editStaff($id){
+        $staff = Staff::find($id);
+        return view('dashboard.staff.edit', [ 
+            'title' => 'Edit Staff',
+            'staff' => $staff,
+        ]);
+    }
+
+    public function updateStaff(Request $request, $id){
+        $validasi = $request->validate([
+            'nama' => 'required',
+            'email' => 'required',
+            // 'password' => 'required',
+            'no_hp' => 'required|numeric',
+        ]);
+    
+        $staff = Staff::findOrFail($id);
+    
+        $staff->nama = $validasi['nama'];
+        $staff->email = $validasi['email'];
+        // $staff->password = $validasi['password'];
+        $staff->no_hp = $validasi['no_hp'];
+        $staff->user_id = auth()->user()->id; 
+    
+        $staff->save();
+    
+        return redirect('/dashboard')->with('success', 'Ticket has been updated!');
     }
 }
