@@ -9,10 +9,10 @@
 </div>
 @endif
 
-        @if(session()->has('loginError'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    @if(session()->has('loginError'))
+        <div class="" role="alert">
             {{ session('loginError') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" aria-label="Close"></button>
         </div>
     @endif
     <form actio="/loginStaff" method="post">
