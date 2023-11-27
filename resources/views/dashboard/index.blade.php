@@ -1,91 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title }}</title>
-</head>
-<body>
+@extends("layout.app")
+@section("main-container")
+<div class="container-fluid">
     @auth
-    <li>
-        <h2>Hallo, {{ auth()->user()->nama }}</h2>
-        <table border=1>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nama Tiket</th>
-                    <th>Deskripsi</th>
-                    <th>Harga</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ( $tickets as $tiket )
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $tiket->nama_tiket }}</td>
-                    <td>{{ $tiket->deskripsi }}</td>
-                    <td>{{ $tiket->harga }}</td>
-                    <td>
-                        <a href="/dashboard/tickets/detail/{{ $tiket->id }}"><button>Detail</button></a>
-                        <a href="/dashboard/tickets/edit/{{ $tiket->id }}"><button>Edit</button></a>
-                        <form action="/dashboard/tickets/{{ $tiket->id }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" onclick="return confirm('are you sure?')">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        </br></br>
-        
-        <button><a href="/dashboard/tickets">Buat tiket baru</a></button></br></br>
-
-        <table border=1>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>No Hp</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ( $staffs as $staff )
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $staff->nama }}</td>
-                    <td>{{ $staff->email }}</td>
-                    <td>{{ $staff->no_hp }}</td>
-                    <td>
-                        <a href="/dashboard/staff/edit/{{ $staff->id }}"><button>Edit</button></a>
-                        <form action="/dashboard/staff/{{ $staff->id }}" method="post">
-                            @csrf
-                            @method('delete')
-                            <button type="submit" onclick="return confirm('are you sure?')">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-        </br></br>
-
-        <button><a href="/dashboard/staff">Buat staff baru</a></button></br></br>
+    <nav class="navbar">
+        <h2 class="nav navbar-brand">Hallo, {{ auth()->user()->nama }}</h2>
+    </nav>
+    <a href="/dashboard" class="h2 text-decoration-none mb-2 pb-2"> My Dashboard</a>
+    <table class="table table-striped table-sm mt-5">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama Tiket</th>
+                <th scope="col">Deskripsi</th>
+                <th scope="col">Harga</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ( $tickets as $tiket )
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $tiket->nama_tiket }}</td>
+                <td>{{ $tiket->deskripsi }}</td>
+                <td>{{ $tiket->harga }}</td>
+                <td>
+                    <a href="/dashboard/tickets/{{ $tiket->id }}" class="btn btn-primary badge bg-info">Detail</a>
+                    <a href="/dashboard/tickets/{{ $tiket->id }}/edit" class="btn badge bg-warning">Edit</a>
+                    <form action="/dashboard/tickets/{{ $tiket->id }}" method="post">
+                        @method('delete')
+                        @csrf
+                        <button onclick="return confirm('are you sure?')" class="btn badge bg-danger">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+    </br></br>
+    <div class="container-fluid d-flex flex-direction-row w-100 justify-content-end align0-content-end">
+        <a href="/dashboard/tickets" class="btn btn-primary">Buat tiket baru</a>
+        <div class="p-2"></div>
+        <a href="/dashboard/staff" class="btn btn-secondary">Buat staff baru</a>
+        <div class="p-2"></div>
         <form action="/logout" method="post">
             @csrf
-            <button type="submit" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</button>
+            <button class ="btn btn-danger" type="submit" onclick="return confirm('Apakah Anda yakin ingin logout?')">Logout</button>
         </form>
-    </li>
-    
+    </div>
     @else
     <li>
         <a href="/login">login</a>
     </li>
     @endauth
 </div>
-</body>
-</html>
+@endsection

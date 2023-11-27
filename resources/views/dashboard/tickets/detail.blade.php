@@ -1,16 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title }}</title>
-</head>
-<body>
-    <div class="container">
-        <h4>Nama Tiket : {{ $tickets->nama_tiket }}</h4>
-        <h4>Deskripsi : {{ $tickets->deskripsi }}</h4>
-        <h4>Harga : {{ $tickets->harga }}</h4>
-        <button><a href="/dashboard">Kembali</a></button></br></br>
+@extends("layout.app")
+@section("main-container")
+<div class="container">
+    <nav class="navbar">
+        <h1 class="navbar-brand">Detail tiket</h1>
+    </nav>
+    <div class="d-flex flex-direction-row">
+    <p class="align-self-center pe-2">Nama Tiket : </p>
+    <p class="w-25 p-2 border rounded">{{ $tickets->nama_tiket }}</p>
     </div>
-</body>
-</html>
+    <div class="d-flex flex-direction-row">
+    <p class="align-self-top pe-4">Deskripsi : </p>
+    <p class="w-25 p-2 border rounded">{{ $tickets->deskripsi }}</p>
+    </div>
+    <div class="d-flex flex-direction-row">
+    <p class="align-self-center pe-5">Harga : </p>
+    <p class="w-25 p-2 border rounded">{{ $tickets->harga }}</p>
+    </div>
+    <a href="/dashboard" class="btn btn-primary">Kembali</a>
+</div>
+@endsection
