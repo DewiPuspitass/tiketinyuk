@@ -24,7 +24,7 @@
                 <td>{{ $tiket->deskripsi }}</td>
                 <td>{{ $tiket->harga }}</td>
                 <td>
-                    <a href="/dashboard/tickets/{{ $tiket->id }}" class="btn btn-primary badge bg-info">Detail</a>
+                    <a href="/dashboard/tickets/detail/{{ $tiket->id }}" class="btn btn-primary badge bg-info">Detail</a>
                     <a href="/dashboard/tickets/{{ $tiket->id }}/edit" class="btn badge bg-warning">Edit</a>
                     <form action="/dashboard/tickets/{{ $tiket->id }}" method="post">
                         @method('delete')

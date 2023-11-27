@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Staff;
 use App\Models\Tickets;
-use App\Models\User;
+use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -20,13 +21,17 @@ class DashboardStaffController extends Controller
      */
     public function index()
     {
-        $userId = 1;
-        $staff = User::find($userId);
-        $tickets = $staff->tickets;
-        
+        $staffId = Auth::guard('staff')->user()->user_id;
+        $user = User::find($staffId);
+        $tickets = $user->tickets;
+
+        // dd($tickets = $user->tickets);
+        $pembelian = Pembelian::where('staff_id', $staffId)->get();
+       
         return view('dashboard.staff.index',[
             'title' => 'Dashboard',
-            'tickets' => $tickets
+            'tickets' => $tickets,
+            'pembelian' => $pembelian
         ]);
     }
 
@@ -43,10 +48,27 @@ class DashboardStaffController extends Controller
         ]);
     }
 
-    public function getHarga(){
-        $harga = Tickets::where('id', $tiketId)->value('harga');
-        return response()->json(['harga' => $harga]);
+    public function hargaTiket(Request $request, $jenisTiket)
+    {
+        $jenisTiket = $request->input('jenis_tiket');
+        $jumlahTiket = $request->input('jumlah_tiket');
         
+        $tiket = Tickets::where('id', $jenisTiket)->first();
+        
+        if ($tiket) {
+            $namaWisatawan = $request->input('nama_wisatawan');
+            $harga = $tiket->harga;
+            $totalHarga = $harga * $jumlahTiket;
+
+            return view('dashboard.staff.pembelian.harga_tiket')
+                ->with('harga', $harga)
+                ->with('nama_wisatawan', $namaWisatawan)
+                ->with('jenisTiket', $jenisTiket)
+                ->with('jumlahTiket', $jumlahTiket)
+                ->with('totalHarga', $totalHarga);
+        } else {
+            return "Tiket $jenisTiket tidak ditemukan";
+        }
     }
 
     /**
@@ -57,52 +79,23 @@ class DashboardStaffController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $staffId = Auth::guard('staff')->user()->id;
+        $create = $request->validate([
+            'nama_wisatawan' => 'required',
+            'jenis_tiket' => 'required',
+            'total_harga' => 'required|numeric',
+            'jenis_pembayaran' => 'required',
+        ]);
+        
+        $pembelian = new Pembelian();
+        $pembelian->nama_wisatawan = $create['nama_wisatawan'];
+        $pembelian->ticket_id = $create['jenis_tiket'];
+        $pembelian->total = $create['total_harga'];
+        $pembelian->staff_id = $staffId;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Staff $staff)
-    {
-        //
-    }
+        $pembelian->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Staff $staff)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Staff $staff)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Staff $staff)
-    {
-        //
+        return redirect('/dashboardStaff')->with('success', 'Tiket baru sudah dibuat');
     }
 
     public function login(){

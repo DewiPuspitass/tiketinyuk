@@ -58,6 +58,8 @@ Route::get('/dashboard/staff/edit/{id}', [DashboardController::class, 'editStaff
 Route::put('/dashboard/staff/edit/{id}', [DashboardController::class, 'updateStaff']);
 
 // For buying the tickets
-Route::get('/dashboard/pembeliantickets', [DashboardStaffController::class, 'pembelian']);
-Route::get('/dashboard/pembeliantickets/harga/{tiketId}', [DashboardStaffController::class, 'getHarga']);
+Route::get('/dashboardStaff/pembeliantickets', [DashboardStaffController::class, 'pembelian']);
+Route::post('/dashboardStaff/hargatiket/{jenisTiket}', [DashboardStaffController::class, 'hargaTiket']);
+Route::post('/dashboardStaff/cetak-tiket', [DashboardStaffController::class, 'store']);
+
 

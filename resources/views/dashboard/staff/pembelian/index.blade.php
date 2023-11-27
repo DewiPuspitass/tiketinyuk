@@ -14,24 +14,25 @@
 </head>
 <body>
     <div class="">
-        <form method="post" action="/dashboardStaff">
+        @foreach ( $tickets as $tiket)
+        <form method="post" action="/dashboardStaff/hargatiket/{{$tiket->id}}">
             @csrf
             <div>
                 <label for="tiket">Tiket</label>
-                <select name="tiket" id="tiket">
-                    @foreach ( $tickets as $tiket)
+                <select name="jenis_tiket" id="tiket">
+                <option name = "" value="">Nama tiket</option>
                     @if(old('ticket_id') == $tiket->id)
-                    <option value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
+                    <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
                     @else
-                    <option value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
+                    <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
                     @endif
                     @endforeach
                 </select>
             </div></br>
 
             <div class="">
-                <label for="nama_wisatawan">Nama Wisatawan</label>
-                <input type="text" class="@error('nama_wisatawan') is-invalid @enderror" id="nama_wisatawan" name="nama_wisatawan" required autofocus value="{{ old('nama_wisatawan') }}">
+                <label for="nama_wisatawan">Atas nama</label>
+                <input type="text" class="@error('nama_wisatawan') is-invalid @enderror" placeholder="Nama wisatawan" id="nama_wisatawan" name="nama_wisatawan" required autofocus value="{{ old('nama_wisatawan') }}">
                 @error('nama_wisatawan')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -39,32 +40,11 @@
                 @enderror
             </div><br>
 
-            <label for="">Harga Tiket</label>
-            <div id="harga-tiket"></div><br>
+            <label for="">Jumlah</label>
+            <input type="number" name="jumlah_tiket" placeholder="0" id="jumlah_tiket">
 
-            <button type="submit">Create Post</button>
+            <button type="submit">Checkout</button>
         </form>
     </div>
-
-<script>
- // Mendapatkan elemen select tiket
- const selectTiket = document.getElementById('tiket');
-    // Mendapatkan elemen tempat untuk menampilkan harga
-    const hargaTiket = document.getElementById('harga-tiket');
-
-    // Event listener ketika pemilihan tiket berubah
-    selectTiket.addEventListener('change', function() {
-        const tiketId = selectTiket.value;
-        fetch(`/dashboard/pembeliantickets/harga/${tiketId}`)
-            .then(response => response.json())
-            .then(data => {
-                // Menampilkan harga tiket yang dipilih
-                hargaTiket.innerHTML = `<p>Harga Tiket yang Dipilih: $${data.harga}</p>`;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    });
-</script>
 </body>
 </html>
