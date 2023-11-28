@@ -43,7 +43,6 @@
                 <th scope="col">Nama Tiket</th>
                 <th scope="col">Nama Wisatawan</th>
                 <th scope="col">Total Harga</th>
-                <th scope="col">Action</th>
             </tr>
         </thead>
         <tbody>
@@ -53,15 +52,6 @@
                 <td>{{ $p->ticket->nama_tiket }}</td>
                 <td>{{ $p->nama_wisatawan }}</td>
                 <td>{{ $p->total }}</td>
-                <td>
-                    <a href="/dashboard/tickets/{{ $tiket->id }}" class="btn badge bg-info">Detail</a>
-                    <a href="/dashboard/tickets/{{ $tiket->id }}/edit" class="btn badge bg-warning">Edit</a>
-                    <form action="/dashboard/tickets/{{ $tiket->id }}" method="post">
-                        @method('delete')
-                        @csrf
-                        <button onclick="return confirm('are you sure?')" class="btn badge bg-danger">Hapus</button>
-                    </form>
-                </td>
             </tr>
             @endforeach
         </tbody>

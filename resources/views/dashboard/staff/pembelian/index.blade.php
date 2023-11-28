@@ -14,18 +14,18 @@
 </head>
 <body>
     <div class="">
-        @foreach ( $tickets as $tiket)
-        <form method="post" action="/dashboardStaff/hargatiket/{{$tiket->id}}">
+        <form method="post" action="/dashboardStaff/hargatiket">
             @csrf
             <div>
                 <label for="tiket">Tiket</label>
                 <select name="jenis_tiket" id="tiket">
-                <option name = "" value="">Nama tiket</option>
-                    @if(old('ticket_id') == $tiket->id)
-                    <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
-                    @else
-                    <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
-                    @endif
+                    <option name = "" value="">Nama tiket</option>
+                    @foreach ( $tickets as $tiket)
+                        @if(old('ticket_id') == $tiket->id)
+                            <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
+                        @else
+                            <option name = "id_tiket" value="{{ $tiket->id }}">{{ $tiket->nama_tiket }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div></br>

@@ -42,13 +42,17 @@ class DashboardStaffController extends Controller
      */
     public function pembelian()
     {
+        $staffId = Auth::guard('staff')->user()->user_id;
+        $user = User::find($staffId);
+        $tickets = $user->tickets;
+
         return view("dashboard.staff.pembelian.index", [
             'title' => 'Pembelian Tiket',
-            'tickets' => Tickets::all(),
+            'tickets' => $tickets,
         ]);
     }
 
-    public function hargaTiket(Request $request, $jenisTiket)
+    public function hargaTiket(Request $request)
     {
         $jenisTiket = $request->input('jenis_tiket');
         $jumlahTiket = $request->input('jumlah_tiket');

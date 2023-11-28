@@ -59,7 +59,7 @@ Route::put('/dashboard/staff/edit/{id}', [DashboardController::class, 'updateSta
 
 // For buying the tickets
 Route::get('/dashboardStaff/pembeliantickets', [DashboardStaffController::class, 'pembelian']);
-Route::post('/dashboardStaff/hargatiket/{jenisTiket}', [DashboardStaffController::class, 'hargaTiket']);
+Route::post('/dashboardStaff/hargatiket', [DashboardStaffController::class, 'hargaTiket']);
 Route::post('/dashboardStaff/cetak-tiket', [DashboardStaffController::class, 'store']);
 
 
